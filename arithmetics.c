@@ -113,7 +113,11 @@ bool checkFormula(const std::string& formula)
         fprintf(stdout, "Opening and closing bracket number is not equal\n");
         return false;
   }
-
+  if(formula.at(0)=='-')
+  {
+       fprintf(stdout, "First value is negative\n");
+       return false;
+  }
   for(int i=0; i<formula.length(); i++)
   {
         if(!isdigit(formula[i]))      
@@ -122,6 +126,11 @@ bool checkFormula(const std::string& formula)
                 fprintf(stdout, "Character: %c at place %d is not accepted \n", (char*)formula[i], i+1);
                 return false;
             }
+        if(i>1 && (formula.at(i-1)=='-') && !isdigit(formula.at(i-2)))
+        {
+           fprintf(stdout, "Value: %c%c is negative\n", (char*)formula[i-1], (char*)formula[i]);
+            return false;
+        }
         if((i!=formula.length()-1) && isdigit(formula[i])&&isdigit(formula[i+1]))
         {   
             fprintf(stdout, "Value: %c%c is too long, numbers accepted are 0-9\n", (char*)formula[i], (char*)formula[i+1]);
